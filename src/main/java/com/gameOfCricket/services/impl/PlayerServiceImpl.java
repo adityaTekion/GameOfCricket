@@ -1,6 +1,7 @@
 package com.gameOfCricket.services.impl;
 
 import com.gameOfCricket.entities.Player;
+import com.gameOfCricket.exception.ResourceNotFoundException;
 import com.gameOfCricket.repositories.PlayerRepositories;
 import com.gameOfCricket.services.PlayerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +22,7 @@ public class PlayerServiceImpl implements PlayerService {
 
     @Override
     public Player getPlayer(Integer playerId) {
-        Player player = this.playerRepo.findById(playerId).orElse(null);
+        Player player = this.playerRepo.findById(playerId).orElseThrow(() -> new ResourceNotFoundException("Player", "playerId", playerId));
         return player;
     }
 
@@ -32,7 +33,7 @@ public class PlayerServiceImpl implements PlayerService {
 
     @Override
     public Player updatePlayer(Integer playerId, Player player) {
-        Player players = this.playerRepo.findById(playerId).orElse(null);
+        Player players = this.playerRepo.findById(playerId).orElseThrow(() -> new ResourceNotFoundException("Player", "playerId", playerId));
 
         players.setPlayer_name(player.getPlayer_name());
 
@@ -41,7 +42,7 @@ public class PlayerServiceImpl implements PlayerService {
 
     @Override
     public void deletePlayer(Integer playerId) {
-        Player player = this.playerRepo.findById(playerId).orElse(null);
+        Player player = this.playerRepo.findById(playerId).orElseThrow(() -> new ResourceNotFoundException("Player", "playerId", playerId));
         this.playerRepo.delete(player);
     }
 
